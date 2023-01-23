@@ -1,0 +1,111 @@
+<div class="container mt-5">
+  <div class="row text-center">
+    <div class="col"></div>
+    <div class="col m-2">
+      <div class="h3">
+        Sign In As
+        <div
+          *ngIf="teacherAccess === false; else elseBlock1"
+          style="display: inline"
+        >
+          Student
+          <h5 class="text-primary mt-2">
+            to enjoy all of our life changing courses 👍
+          </h5>
+        </div>
+        <ng-template #elseBlock1>
+          Teacher
+          <div class="text-primary h5 mt-3">
+            and start creating courses 👍
+          </div></ng-template
+        >
+      </div>
+      <form
+        [formGroup]="loginForm"
+        (ngSubmit)="onSubmit()"
+        class="d-flex-center card p-3 bg-light"
+      >
+        <div class="example-container">
+          <div>
+            <mat-form-field>
+              <input matInput placeholder="Email" formControlName="email" />
+              <mat-error
+                *ngIf="
+                  !loginForm.get('email')?.errors?.required &&
+                  loginForm.get('email')?.errors?.pattern
+                "
+              >
+                Please enter a valid email address
+              </mat-error>
+              <mat-error
+                *ngIf="
+                  loginForm.get('email')?.invalid &&
+                  (loginForm.get('email')?.dirty ||
+                    loginForm.get('email')?.touched) &&
+                  loginForm.get('email')?.errors?.required
+                "
+              >
+                Email is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="mt-top-2">
+            <mat-form-field>
+              <input
+                matInput
+                type="password"
+                placeholder="Password"
+                formControlName="password"
+              />
+              <mat-error
+                style="display: inline"
+                *ngIf="!loginForm.get('password')?.errors?.required"
+              >
+                Password length must be greater than or equal to 8 and password
+                must contain one or more uppercase , lowercase , numeric and
+                special characters
+              </mat-error>
+              <mat-error
+                *ngIf="
+                  loginForm.get('password')?.invalid &&
+                  (loginForm.get('password')?.dirty ||
+                    loginForm.get('password')?.touched) &&
+                  loginForm.get('password')?.errors?.required
+                "
+              >
+                Password is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="mt-top">
+            <button
+              [disabled]="!loginForm.valid"
+              mat-raised-button
+              color="primary"
+              mat-button
+              (click)="teacherAccess ? teacherSignIn() : studentSignIn()"
+            >
+              Sign In
+            </button>
+          </div>
+        </div>
+        <div class="mt-5">
+          Don't have an Account ?
+
+          <button type="button" class="btn btn-link" (click)="HandleClickSignUp()">SignUp</button>
+        </div>
+        <button
+          class="btn btn-link fw-bold"
+          (click)="teacherAccess = !teacherAccess"
+        >
+          <div *ngIf="teacherAccess === false; else elseBlock">
+            Login As Teacher
+          </div>
+          <ng-template #elseBlock>Login as student</ng-template>
+        </button>
+        <h1></h1>
+      </form>
+    </div>
+    <div class="col"></div>
+  </div>
+</div>
